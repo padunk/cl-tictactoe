@@ -114,12 +114,22 @@ function App() {
 
   const isWinner = checkWinner();
   const isDraw = checkDraw();
+  const playerAScore = JSON.parse(localStorage.getItem("tictactoe"))?.a || 0;
+  const playerBScore = JSON.parse(localStorage.getItem("tictactoe"))?.b || 0;
 
   return (
     <div className="App">
       <h1 className="title">TIC TAC TOE</h1>
-      <h3>Player A: {PLAYER_A}</h3>
-      <h3>Player B: {PLAYER_B}</h3>
+      <div className="players">
+        <h3>
+          Player A: {PLAYER_A}, Wins:{" "}
+          <span data-testid="player.a.score">{playerAScore}</span>
+        </h3>
+        <h3>
+          Player B: {PLAYER_B}, Wins:{" "}
+          <span data-testid="player.b.score">{playerBScore}</span>
+        </h3>
+      </div>
       {isDraw ? (
         <>
           <h2 data-testid="test.draw">It's a DRAW!</h2>

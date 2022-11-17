@@ -1,7 +1,7 @@
 import App, { winningStates } from "../App";
 import { checkDraw, checkWinner } from "../utils";
-import { describe, expect, it } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 
 import Cell from "../components/cell";
 import userEvent from "@testing-library/user-event";
@@ -28,7 +28,11 @@ describe("App", () => {
     await user.click(buttons[0]);
     expect(buttons[0].innerHTML).toBe("X");
 
+    window.alert = vi.fn();
     await user.click(buttons[0]);
+    expect(window.alert).toBeCalledWith(
+      "The cell is already selected. Please choose other cell."
+    );
     expect(buttons[0].innerHTML).not.toBe("O"); // negative test
 
     await user.click(buttons[1]);
@@ -46,6 +50,8 @@ describe("App", () => {
     await user.click(buttons[2]); // X
 
     expect(getByTestId("test.winner")).toBeInTheDocument();
+    expect(getByTestId("player.a.score").innerHTML).toEqual("1");
+    expect(getByTestId("player.b.score").innerHTML).toEqual("0");
   });
 
   it("should show draw title", async () => {
@@ -73,7 +79,7 @@ describe("App", () => {
 });
 
 describe("Unit Test", () => {
-  test("should not return winner", () => {
+  it("should not return winner", () => {
     let result = checkWinner(winningStates, board);
     expect(result).toBeNull();
 
@@ -89,7 +95,7 @@ describe("Unit Test", () => {
     expect(result).toBeNull();
   });
 
-  test("should return a winner", () => {
+  it("checkWinner function", () => {
     let result = checkWinner(winningStates, board);
     expect(result).toBeNull();
 
@@ -119,7 +125,7 @@ describe("Unit Test", () => {
     expect(result).toEqual("X");
   });
 
-  test("should be draw", () => {
+  it("checkDraw function", () => {
     let result = checkDraw(board);
     expect(result).toBe(false);
 
