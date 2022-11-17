@@ -33,3 +33,8 @@ npm run test
 
 - [ ] Add history functionality on different page
 - [ ] Add choosing another symbol for players
+
+### Notes:
+
+The development in React 18 will run twice, so the winner score will also got calling twice.
+Please run it in the preview environment which is close to the production one.
